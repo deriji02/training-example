@@ -9,7 +9,7 @@ Budgets: records of each department's budget
 Costs: records of how much each unit of filesize costs for each filetype
 
 # Guidance
-Each question can be solved using python or sql. It is advised that you create a new file per question though where code is being reused, it may be helpful to store the code as functions in the utils module so that it can be imported into other files. There is already a function in the utils module for loading the data files in as pandas dataframes.
+Each question can be solved using python or sql. It is advised that you create a new file per question though where code is being reused, it may be helpful to store the code as functions in the utils module so that it can be imported into other files. There are already functions in the utils module for loading the data files either as a pandas dataframe or a list of rows.
 The data can be manipulated using the csv module, pandas or duckdb. Any choice is correct though it may be helpful to try all three to understand the differences between them.
 
 # Questions
