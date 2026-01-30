@@ -1,6 +1,6 @@
 # Example project
 
-This repo is being used to provide a training exercise for data analysis using python and/or sql. The repo consists of a data folder which contains 4 csv files and a src folder where you will write your code.
+This repo is being used to provide a training exercise for data analysis using python and/or sql. The repo consists of a data folder which contains 4 csv files and a src folder where you will write your code. When working with this repo, please make sure to create a new branch and carry out your work on your branch.
 
 # Data
 Users: user data detailing user names, user IDs and their department
