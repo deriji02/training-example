@@ -1,5 +1,6 @@
 from .utils import read_datafile, csv_read_datafile
 import pandas as pd
+import duckdb
 
 
 def pandas_solution() -> str:
@@ -37,11 +38,29 @@ def csv_solution() -> str:
     return top_dept
 
 
+def duckdb_solution() -> str:
+    usage = read_datafile("usage")
+    users = read_datafile("users")
+    df = duckdb.query(
+        """
+        select users.dept, count(*) as files
+        from usage
+        left join users on usage.user_id = users.user_id
+        where usage.filetype in ('.xlsx', '.csv')
+        group by users.dept
+        order by count(*) desc
+        """
+    ).to_df()
+    return df["dept"].loc[0]
+
+
 def main() -> None:
     pandas_result = pandas_solution()
     csv_result = csv_solution()
+    duckdb_result = duckdb_solution()
     print(f"Department with most data files: {pandas_result}")
     print(f"Department with most data files: {csv_result}")
+    print(f"Department with most data files: {duckdb_result}")
 
 
 if __name__ == "__main__":

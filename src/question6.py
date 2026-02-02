@@ -1,5 +1,6 @@
 from .utils import read_datafile, csv_read_datafile
 import pandas as pd
+import duckdb
 
 
 def pandas_solution() -> pd.DataFrame:
@@ -40,11 +41,31 @@ def csv_solution() -> list[tuple]:
     return results
 
 
+def duckdb_solution() -> pd.DataFrame:
+    users = read_datafile("users")
+    usage = read_datafile("usage")
+    costs = read_datafile("costs")
+    df = duckdb.query(
+        """
+        select users.username
+            ,sum(filesize * cost_per_unit) as file_cost
+        from usage
+        left join users on usage.user_id = users.user_id
+        left join costs on usage.filetype = costs.filetype
+        group by users.username
+        order by sum(filesize * cost_per_unit) desc
+        """
+    ).to_df()
+    return df
+
+
 def main() -> None:
     pandas_result = pandas_solution()
     csv_result = csv_solution()
+    duckdb_result = duckdb_solution()
     print(f"Users with highest spend:\n {pandas_result}")
     print(f"User with highest spend: {csv_result}")
+    print(f"Users with highest spend:\n {duckdb_result}")
 
 
 if __name__ == "__main__":

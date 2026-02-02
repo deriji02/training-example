@@ -1,5 +1,6 @@
 from .utils import read_datafile, csv_read_datafile
 import pandas as pd
+import duckdb
 
 
 def pandas_solution() -> str:
@@ -35,11 +36,29 @@ def csv_solution() -> str:
     return next(x for x, y in results.items() if y == max(results.values()))
 
 
+def duckdb_solution() -> str:
+    users = read_datafile("users")
+    usage = read_datafile("usage")
+    df = duckdb.query(
+        """
+        select users.username, count(*)
+        from users
+        left join usage on users.user_id = usage.user_id
+        where usage.filetype = '.pdf'
+        group by users.username
+        order by count(*) desc
+        """
+    ).to_df()
+    return df["username"].loc[0]
+
+
 def main() -> None:
     pandas_result = pandas_solution()
     csv_result = csv_solution()
+    duckdb_result = duckdb_solution()
     print(f"User with most data stored as .pdf files: {pandas_result}")
     print(f"User with most data stored as .pdf files: {csv_result}")
+    print(f"User with most data stored as .pdf files: {duckdb_result}")
 
 
 if __name__ == "__main__":

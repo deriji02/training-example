@@ -1,8 +1,8 @@
 from .utils import read_datafile, csv_read_datafile
 import pandas as pd
+import duckdb
 
 
-# Pandas solution functions
 def pandas_join_datasets() -> pd.DataFrame:
     users = read_datafile("users")
     usage = read_datafile("usage")
@@ -36,7 +36,6 @@ def pandas_calculate_spends() -> dict[str, str]:
     return dept_results
 
 
-# csv solution functions
 def csv_solution() -> dict[str, str]:
     users = csv_read_datafile("users")[1:]
     usage = csv_read_datafile("usage")[1:]
@@ -67,11 +66,35 @@ def csv_solution() -> dict[str, str]:
     return dept_results
 
 
+def duckdb_solution() -> dict[str, str]:
+    users = read_datafile("users")
+    usage = read_datafile("usage")
+    costs = read_datafile("costs")
+    budgets = read_datafile("budgets")
+    usage_costs = duckdb.query(
+        """
+        select users.dept
+            ,case when sum(usage.filesize * costs.cost_per_unit) > budgets.budget then 'Over'
+                when sum(usage.filesize * costs.cost_per_unit) < budgets.budget then 'Under'
+                else 'Equal' end as flag
+        from usage
+        left join costs on usage.filetype = costs.filetype
+        left join users on usage.user_id = users.user_id
+        left join budgets on users.dept = budgets.dept
+        group by users.dept, budgets.budget
+        """
+    ).to_df()
+    results = {k: v for k, v in zip(usage_costs["dept"], usage_costs["flag"])}
+    return results
+
+
 def main() -> None:
     pandas_results = pandas_calculate_spends()
     csv_results = csv_solution()
+    duck_db_results = duckdb_solution()
     print(f"Pandas results: {pandas_results}")
     print(f"csv results: {csv_results}")
+    print(f"duckdb results: {duck_db_results}")
 
 
 if __name__ == "__main__":

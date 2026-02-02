@@ -17,5 +17,5 @@ The data can be manipulated using the csv module, pandas or duckdb. Any choice i
 2) Write a file to find out which department has stored the most files in the last 3 years
 3) Write a file to find out whether departments are over or under budget
 4) Write a file to find out which department has stored the most data files (.csv & .xlsx)
-5) Write a file to find out the name of the user who has stored the most data files PDF files by how much they have spent storing PDF files
+5) Write a file to find out the name of the user who has stored the most files PDF files by how much they have spent storing PDF files
 6) Write a file to find out how much each user has spent and rank users by spend in descending order
