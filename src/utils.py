@@ -16,4 +16,3 @@ def csv_read_datafile(filename: str) -> list[list[Any]]:
         reader = csv.reader(file)
         rows = [x for x in reader]
         return rows
-
