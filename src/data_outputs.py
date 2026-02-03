@@ -60,7 +60,7 @@ def write_budgets_data() -> None:
 
 def write_costs_data() -> None:
     filepath = Path(__file__).parent.parent / "data" / "costs.csv"
-    columns = ["fileptye", "cost_per_unit"]
+    columns = ["filetype", "cost_per_unit"]
     filetypes = {".csv": 5, ".xlsx": 10, ".jpeg": 25, ".mp4": 50, ".pdf": 35}
     with open(filepath, "w") as file:
         writer = csv.writer(file)
