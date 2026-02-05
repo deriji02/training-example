@@ -18,6 +18,7 @@ def csv_read_datafile(filename: str) -> list[list[Any]]:
         rows = [x for x in reader]
         return rows
 
+
 def timing(func: Callable) -> Any:
     def wrapper(*args, **kwargs):
         start = time.time()
@@ -25,4 +26,5 @@ def timing(func: Callable) -> Any:
         end = time.time()
         print(f"Function ran in {end - start:.5f} seconds")
         return result
+
     return wrapper
