@@ -1,4 +1,4 @@
-from .utils import read_datafile, csv_read_datafile
+from .utils import read_datafile, csv_read_datafile, timing
 import pandas as pd
 import duckdb
 
@@ -18,6 +18,7 @@ def pandas_join_datasets() -> pd.DataFrame:
     return usage_costs_users
 
 
+@timing
 def pandas_calculate_spends() -> dict[str, str]:
     usage_costs_users = pandas_join_datasets()
     budgets = read_datafile("budgets")
@@ -36,6 +37,7 @@ def pandas_calculate_spends() -> dict[str, str]:
     return dept_results
 
 
+@timing
 def csv_solution() -> dict[str, str]:
     users = csv_read_datafile("users")[1:]
     usage = csv_read_datafile("usage")[1:]
@@ -66,6 +68,7 @@ def csv_solution() -> dict[str, str]:
     return dept_results
 
 
+@timing
 def duckdb_solution() -> dict[str, str]:
     users = read_datafile("users")
     usage = read_datafile("usage")

@@ -1,10 +1,11 @@
-from .utils import read_datafile, csv_read_datafile
+from .utils import read_datafile, csv_read_datafile, timing
 import pandas as pd
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import duckdb
 
 
+@timing
 def pandas_solution() -> str:
     usage = read_datafile("usage")
     users = read_datafile("users")
@@ -22,14 +23,15 @@ def pandas_solution() -> str:
     return dept
 
 
+@timing
 def csv_solution() -> str:
     usage = csv_read_datafile("usage")[1:]
     users = csv_read_datafile("users")[1:]
+    filter_date = datetime.now() - relativedelta(months=36)
     results = {}
     for x in usage:
         user = x[0]
         dept = next(y[-1] for y in users if y[0] == user)
-        filter_date = datetime.now() - relativedelta(months=36)
         date_uploaded_parts = x[3].split("-")
         date_uploaded = datetime(
             int(date_uploaded_parts[0]),
@@ -44,6 +46,7 @@ def csv_solution() -> str:
     return next(x for x, y in results.items() if y == max(results.values()))
 
 
+@timing
 def duckdb_solution() -> str:
     usage = read_datafile("usage")
     users = read_datafile("users")

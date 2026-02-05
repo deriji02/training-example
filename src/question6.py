@@ -1,8 +1,9 @@
-from .utils import read_datafile, csv_read_datafile
+from .utils import read_datafile, csv_read_datafile, timing
 import pandas as pd
 import duckdb
 
 
+@timing
 def pandas_solution() -> pd.DataFrame:
     users = read_datafile("users")
     usage = read_datafile("usage")
@@ -20,6 +21,7 @@ def pandas_solution() -> pd.DataFrame:
     return results
 
 
+@timing
 def csv_solution() -> list[tuple]:
     users = csv_read_datafile("users")[1:]
     usage = csv_read_datafile("usage")[1:]
@@ -41,6 +43,7 @@ def csv_solution() -> list[tuple]:
     return results
 
 
+@timing
 def duckdb_solution() -> pd.DataFrame:
     users = read_datafile("users")
     usage = read_datafile("usage")

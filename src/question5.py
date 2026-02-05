@@ -1,8 +1,9 @@
-from .utils import read_datafile, csv_read_datafile
+from .utils import read_datafile, csv_read_datafile, timing
 import pandas as pd
 import duckdb
 
 
+@timing
 def pandas_solution() -> str:
     users = read_datafile("users")
     usage = read_datafile("usage")
@@ -18,6 +19,7 @@ def pandas_solution() -> str:
     return top_user
 
 
+@timing
 def csv_solution() -> str:
     users = csv_read_datafile("users")[1:]
     usage = csv_read_datafile("usage")[1:]
@@ -36,6 +38,7 @@ def csv_solution() -> str:
     return next(x for x, y in results.items() if y == max(results.values()))
 
 
+@timing
 def duckdb_solution() -> str:
     users = read_datafile("users")
     usage = read_datafile("usage")
